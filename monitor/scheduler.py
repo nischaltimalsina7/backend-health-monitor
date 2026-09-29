@@ -1,6 +1,7 @@
 from time import sleep
 
 from monitor.checker import check_health
+from monitor.storage import save_result
 
 
 def main():
@@ -9,6 +10,7 @@ def main():
     try:
         while True:
             result = check_health(url)
+            save_result(result)
             print(result)
             sleep(5)
     except KeyboardInterrupt:

@@ -48,3 +48,9 @@ Run the incident test with:
 ```powershell
 python -m unittest discover -s tests -v
 ```
+## Running the Test Service
+
+Start the FastAPI test service:
+
+```powershell
+python -m uvicorn test_service:app --port 8000

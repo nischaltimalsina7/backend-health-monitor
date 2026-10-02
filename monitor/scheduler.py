@@ -16,6 +16,9 @@ def main():
             save_result(result)
             print(result)
 
+            if result.get("high_latency"):
+                print("WARNING: High latency detected") 
+
             failures, incident_open, message = update_incident(
                 result, failures, incident_open
             )

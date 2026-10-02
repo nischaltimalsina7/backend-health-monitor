@@ -3,6 +3,8 @@ from time import perf_counter
 from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
 
+LATENCY_THRESHOLD_MS = 500
+
 
 def check_health(url):
     checked_at = datetime.now(timezone.utc).isoformat()
@@ -11,12 +13,14 @@ def check_health(url):
     try:
         with urlopen(url, timeout=5) as response:
             elapsed_ms = (perf_counter() - start) * 1000
+            high_latency = elapsed_ms >= LATENCY_THRESHOLD_MS
 
             return {
                 "checked_at": checked_at,
                 "status": "UP",
                 "http_status": response.status,
                 "latency_ms": round(elapsed_ms, 1),
+                "high_latency": high_latency,
                 "error": None,
             }
 

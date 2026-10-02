@@ -1,7 +1,6 @@
 # Backend Health & Log Monitor
 
-A backend monitering system for detecting service failures, high latency,
-and application errors.
+A backend monitoring system for detecting service failures, high latency, and application errors.
 
 ## Project Status
 
@@ -17,7 +16,7 @@ Currently under development.
 - Alert notifications
 - Monitoring history
 
-## Run locally
+## Run Locally
 
 Use Python in the project folder. On Windows PowerShell, create and activate a virtual environment:
 
@@ -30,10 +29,16 @@ python -m pip install -r requirements.txt
 Start the test backend in one terminal:
 
 ```powershell
-python -m uvicorn test_service:app --reload
+python -m uvicorn test_service:app --port 8000
 ```
 
-Open http://127.0.0.1:8000/health to check that it returns `{"status":"ok"}`.
+Open `http://127.0.0.1:8000/health` in your browser.
+
+A successful response should return:
+
+```json
+{"status": "ok"}
+```
 
 In a second terminal, start the monitor:
 
@@ -41,16 +46,26 @@ In a second terminal, start the monitor:
 python -m monitor.scheduler
 ```
 
-The monitor checks every five seconds and saves results to `data/checks.jsonl`. It announces an alert after three consecutive failed checks and announces recovery when a check succeeds again. Press Ctrl+C in the monitor terminal to stop it.
+The monitor checks the backend every five seconds and saves the results to `data/checks.jsonl`.
 
-Run the incident test with:
+After three consecutive failed checks, it reports:
+
+```text
+ALERT: Backend is down
+```
+
+When the backend becomes available again, it reports:
+
+```text
+RECOVERED: Backend is up again
+```
+
+Press `Ctrl+C` in the monitor terminal to stop the monitor.
+
+## Run Tests
+
+Run the incident tests with:
 
 ```powershell
 python -m unittest discover -s tests -v
 ```
-## Running the Test Service
-
-Start the FastAPI test service:
-
-```powershell
-python -m uvicorn test_service:app --port 8000

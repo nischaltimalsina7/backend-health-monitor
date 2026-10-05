@@ -6,10 +6,10 @@ from monitor.storage import save_result
 from monitor.log_analyzer import analyze_logs
 from monitor.notifier import send_notification
 from monitor.state import load_log_position, save_log_position
-
+from monitor.config import MONITOR_URL, CHECK_INTERVAL_SECONDS
 
 def main():
-    url = "http://127.0.0.1:8000/health"
+    url = MONITOR_URL
     failures = 0
     incident_open = False
     log_position = load_log_position()
@@ -33,7 +33,7 @@ def main():
             if message is not None:
                 send_notification(message)
 
-            sleep(5)
+            sleep(CHECK_INTERVAL_SECONDS)
 
     except KeyboardInterrupt:
         print("\nMonitor stopped.")

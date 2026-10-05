@@ -4,7 +4,7 @@ from monitor.checker import check_health
 from monitor.incidents import update_incident
 from monitor.storage import save_result
 from monitor.log_analyzer import analyze_logs
-
+from monitor.notifier import send_notification
 
 def main():
     url = "http://127.0.0.1:8000/health"
@@ -27,7 +27,7 @@ def main():
             )
 
             if message is not None:
-                print(message)
+               send_notification(message)
 
             sleep(5)
 

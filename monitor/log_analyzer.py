@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from monitor.notifier import send_notification
 
 LOG_FILE = Path("logs/app.log")
 
@@ -12,7 +12,7 @@ def analyze_logs(last_position):
 
     for line in lines:
         if "ERROR" in line:
-            print(f"ALERT: {line.strip()}")
+            send_notification(f"ALERT: {line.strip()}")
     return new_position
 
 

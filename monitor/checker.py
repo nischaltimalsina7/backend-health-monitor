@@ -2,8 +2,9 @@ from datetime import datetime, timezone
 from time import perf_counter
 from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
+from monitor.config import LATENCY_THRESHOLD_MS
 
-LATENCY_THRESHOLD_MS = 500
+
 
 
 def check_health(url):

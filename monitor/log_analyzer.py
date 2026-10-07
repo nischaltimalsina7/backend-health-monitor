@@ -5,6 +5,10 @@ LOG_FILE = Path("logs/app.log")
 
 
 def analyze_logs(last_position):
+
+    if not LOG_FILE.exists():
+        return last_position
+
     with LOG_FILE.open("r", encoding="utf-8") as file:
         file.seek(last_position)
         lines = file.readlines()

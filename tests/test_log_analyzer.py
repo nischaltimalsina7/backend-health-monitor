@@ -33,3 +33,12 @@ class TestLogAnalyzer(unittest.TestCase):
                     analyze_logs(0)
 
             mock_notify.assert_called_once()
+
+    def test_missing_log_file_does_not_crash(self):
+        with TemporaryDirectory() as temp_dir:
+            missing_log = Path(temp_dir) / "missing.log"
+
+            with patch("monitor.log_analyzer.LOG_FILE", missing_log):
+                position = analyze_logs(100)
+
+            self.assertEqual(position, 100)
